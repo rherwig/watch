@@ -8,7 +8,7 @@
 import { onMounted, provide } from 'vue';
 import io from 'socket.io-client';
 
-const socket = !import.meta.env.SSR ? io('http://localhost:3000', {
+const socket = !import.meta.env.SSR ? io(undefined, {
     reconnection: true,
     rejectUnauthorized: false,
     transports: ['websocket'],
