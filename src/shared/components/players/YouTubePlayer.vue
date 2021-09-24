@@ -1,44 +1,110 @@
 <template>
     <div id="youtube-player"></div>
-    <Button @click="playVideo">Play</Button>
+
+    <div class="controls" v-if="player">
+        <Button
+            class="mt-2 mr-2"
+            @click="playVideo"
+        >
+            Play
+        </Button>
+        <Button
+            class="mt-2 mr-2"
+            @click="pauseVideo"
+        >
+            Pause
+        </Button>
+        <Button
+            class="mt-2"
+            @click="stopVideo"
+        >
+            Stop
+        </Button>
+    </div>
+
+    <input
+        type="text"
+        class="mt-4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full text-sm border-gray-300 rounded-md"
+        placeholder="YouTube Watch ID"
+        v-model="videoId"
+    />
+    <Button
+        class="mt-2 mb-8"
+        @click="loadVideo"
+    >
+        Load
+    </Button>
 </template>
 
 <script setup>
-import { inject, onMounted, reactive } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 
 import * as events from '../../socket/events';
 import { YOUTUBE_VIDEO_ID } from '../../../debug/constants';
 import Button from '../typography/buttons/Button.vue';
 
-// let player = reactive({});
-
 const socket = inject('socket');
 
-const options = {
-    height: '390',
-    width: '640',
-    videoId: YOUTUBE_VIDEO_ID,
-    playerVars: {
-        playsinline: 1,
-    },
-    events: {
-        // onReady: (event) => player = event.target,
-        onStateChange: (event) => console.log('state change', event),
-    },
-};
+const videoId = ref('');
+
+let player = ref(null);
 
 onMounted(() => {
-    const { Player } = window.YT;
-    const player = new Player('youtube-player', options);
-
-    socket.on(events.VIDEO_PLAY_START, () => {
+    socket.on(events.VIDEO_PLAY, () => {
         console.log('Play confirmed.');
-        player.playVideo();
+        player.value.playVideo();
+    });
+
+    socket.on(events.VIDEO_PAUSE, () => {
+        console.log('Pause confirmed.');
+        player.value.pauseVideo();
+    });
+
+    socket.on(events.VIDEO_STOP, () => {
+        console.log('Stop confirmed.');
+        player.value.stopVideo();
     });
 });
 
+const createPlayer = (videoId) => {
+    const options = {
+        height: '390',
+        width: '640',
+        videoId,
+        playerVars: {
+            playsinline: 1,
+        },
+        events: {
+            onReady: (event) => {
+                player.value = event.target;
+            },
+            onStateChange: (event) => console.log('state change', event),
+        },
+    };
+
+    new YT.Player('youtube-player', options);
+};
+
+const loadVideo = () => {
+    if (player.value) {
+        player.value.destroy();
+    }
+    
+    player.value = null;
+
+    createPlayer(videoId.value || YOUTUBE_VIDEO_ID);
+};
+
 const playVideo = () => {
-    socket.emit(events.VIDEO_PLAY_REQUEST_START);
+    socket.emit(events.VIDEO_PLAY_REQUEST);
+};
+
+const pauseVideo = () => {
+    socket.emit(events.VIDEO_PAUSE_REQUEST);
+};
+
+const stopVideo = () => {
+    socket.emit(events.VIDEO_STOP_REQUEST);
 };
 
 </script>

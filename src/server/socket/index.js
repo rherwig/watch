@@ -16,8 +16,16 @@ export default (io) => {
             socket.emit(events.ROOM_JOIN_CONFIRM);
         });
 
-        socket.on(events.VIDEO_PLAY_REQUEST_START, (payload) => {
-            io.to(ROOM).emit(events.VIDEO_PLAY_START, payload);
+        socket.on(events.VIDEO_PLAY_REQUEST, (payload) => {
+            io.to(ROOM).emit(events.VIDEO_PLAY, payload);
+        });
+
+        socket.on(events.VIDEO_PAUSE_REQUEST, (payload) => {
+            io.to(ROOM).emit(events.VIDEO_PAUSE, payload);
+        });
+
+        socket.on(events.VIDEO_STOP_REQUEST, (payload) => {
+            io.to(ROOM).emit(events.VIDEO_STOP, payload);
         });
     });
 };
