@@ -2,6 +2,10 @@ export const ROOM_JOIN_TRY = 'room:join:try';
 export const ROOM_JOIN_CONFIRM = 'room:join:confirm';
 export const ROOM_JOIN = 'room:join';
 
+export const VIDEO_LOAD_REQUEST = 'video:load:request';
+export const VIDEO_LOAD = 'video:load';
+export const VIDEO_LOAD_DONE = 'video:load:done';
+
 export const VIDEO_PLAY_REQUEST = 'video:play:request';
 export const VIDEO_PLAY = 'video:play';
 export const VIDEO_PLAY_DONE = 'video:play:done';

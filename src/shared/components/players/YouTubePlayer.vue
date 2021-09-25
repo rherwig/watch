@@ -30,7 +30,7 @@
     />
     <Button
         class="mt-2 mb-8"
-        @click="loadVideo"
+        @click="requestVideo"
     >
         Load
     </Button>
@@ -50,6 +50,13 @@ const videoId = ref('');
 let player = ref(null);
 
 onMounted(() => {
+    socket.on(events.VIDEO_LOAD, (payload) => {
+        console.log(payload);
+
+        videoId.value = payload.videoId;
+        loadVideo();
+    });
+
     socket.on(events.VIDEO_PLAY, () => {
         console.log('Play confirmed.');
         player.value.playVideo();
@@ -85,11 +92,17 @@ const createPlayer = (videoId) => {
     new YT.Player('youtube-player', options);
 };
 
+const requestVideo = () => {
+    socket.emit(events.VIDEO_LOAD_REQUEST, {
+        videoId: videoId.value,
+    });
+};
+
 const loadVideo = () => {
     if (player.value) {
         player.value.destroy();
     }
-    
+
     player.value = null;
 
     createPlayer(videoId.value || YOUTUBE_VIDEO_ID);
