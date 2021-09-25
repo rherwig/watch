@@ -1,5 +1,7 @@
 <template>
-    <div id="youtube-player"></div>
+    <div class="aspect-w-16 aspect-h-9">
+        <div id="youtube-player"></div>
+    </div>
 
     <div class="controls" v-if="player">
         <Button
@@ -50,6 +52,8 @@ const videoId = ref('');
 let player = ref(null);
 
 onMounted(() => {
+    loadVideo();
+
     socket.on(events.VIDEO_LOAD, (payload) => {
         console.log(payload);
 
@@ -75,15 +79,18 @@ onMounted(() => {
 
 const createPlayer = (videoId) => {
     const options = {
-        height: '390',
-        width: '640',
+        height: '100%',
+        width: '100%',
         videoId,
         playerVars: {
             playsinline: 1,
+            enablejsapi: 1,
+            autoplay: 1,
         },
         events: {
             onReady: (event) => {
                 player.value = event.target;
+                player.value.stopVideo();
             },
             onStateChange: (event) => console.log('state change', event),
         },
