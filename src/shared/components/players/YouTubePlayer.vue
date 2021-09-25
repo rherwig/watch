@@ -1,41 +1,45 @@
 <template>
-    <div class="aspect-w-16 aspect-h-9">
-        <div id="youtube-player"></div>
-    </div>
+    <div class="max-w-7xl m-auto p-1">
+        <div class="aspect-w-16 aspect-h-9 mb-8">
+            <div id="youtube-player"></div>
+        </div>
 
-    <div class="controls" v-if="player">
-        <Button
-            class="mt-2 mr-2"
-            @click="playVideo"
-        >
-            Play
-        </Button>
-        <Button
-            class="mt-2 mr-2"
-            @click="pauseVideo"
-        >
-            Pause
-        </Button>
-        <Button
-            class="mt-2"
-            @click="stopVideo"
-        >
-            Stop
-        </Button>
-    </div>
+        <div v-if="player">
+            <Button
+                class="mt-2 mr-2"
+                @click="playVideo"
+            >
+                Play
+            </Button>
+            <Button
+                class="mt-2 mr-2"
+                @click="pauseVideo"
+            >
+                Pause
+            </Button>
+            <Button
+                class="mt-2"
+                @click="stopVideo"
+            >
+                Stop
+            </Button>
+        </div>
 
-    <input
-        type="text"
-        class="mt-4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full text-sm border-gray-300 rounded-md"
-        placeholder="YouTube Watch ID"
-        v-model="videoId"
-    />
-    <Button
-        class="mt-2 mb-8"
-        @click="requestVideo"
-    >
-        Load
-    </Button>
+        <div>
+            <input
+                type="text"
+                class="mt-4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full text-sm border-gray-300 rounded-md"
+                placeholder="YouTube Watch ID"
+                v-model="videoId"
+            />
+            <Button
+                class="mt-2 mb-8"
+                @click="requestVideo"
+            >
+                Load
+            </Button>
+        </div>
+    </div>
 </template>
 
 <script setup>

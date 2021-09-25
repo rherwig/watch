@@ -1,5 +1,4 @@
 <template>
-    <Headline>Room</Headline>
     <YouTubePlayer/>
 </template>
 
