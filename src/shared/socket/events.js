@@ -2,6 +2,13 @@ export const ROOM_JOIN_TRY = 'room:join:try';
 export const ROOM_JOIN_CONFIRM = 'room:join:confirm';
 export const ROOM_JOIN = 'room:join';
 
+export const ROOM_USER_JOINED = 'room:user:joined';
+export const ROOM_USER_LEFT = 'room:user:left';
+export const ROOM_USER_UPDATE = 'room:user:update';
+
+export const CHAT_MESSAGE_SEND = 'chat:message:send';
+export const CHAT_MESSAGE_RECEIVED = 'chat:message:received';
+
 export const VIDEO_LOAD_REQUEST = 'video:load:request';
 export const VIDEO_LOAD = 'video:load';
 export const VIDEO_LOAD_DONE = 'video:load:done';

@@ -26,7 +26,7 @@ const socket = inject('socket');
 
 const joinRoom = () => {
     socket.emit(events.ROOM_JOIN_TRY, {
-        roomName,
+        name: roomName,
     });
 
     socket.on(events.ROOM_JOIN_CONFIRM, () => {

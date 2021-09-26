@@ -10,8 +10,13 @@ const routes = [
     },
     {
         name: 'room',
-        path: '/room',
+        path: '/room/:name',
         component: () => import('../pages/Room.vue'),
+    },
+    {
+        name: 'layout',
+        path: '/layout',
+        component: () => import('../pages/Layout.vue'),
     },
 ];
 
