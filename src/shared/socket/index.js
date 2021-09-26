@@ -1,6 +1,8 @@
 import { inject } from 'vue';
 import { Socket } from 'socket.io-client';
 
+import * as events from './events';
+
 const SOCKET_KEY = 'socket';
 
 /**
@@ -8,4 +10,9 @@ const SOCKET_KEY = 'socket';
  *
  * @return {Socket}
  */
-export const useSocket = () => inject(SOCKET_KEY);
+const useSocket = () => inject(SOCKET_KEY);
+
+export {
+    events,
+    useSocket,
+};

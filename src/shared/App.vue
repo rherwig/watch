@@ -1,12 +1,17 @@
 <template>
-    <main class="h-full">
-        <RouterView/>
-    </main>
+    <div class="app h-full">
+        <Header class="header"/>
+        <main class="content h-full py-1">
+            <RouterView/>
+        </main>
+    </div>
 </template>
 
 <script setup>
 import { onMounted, provide } from 'vue';
 import io from 'socket.io-client';
+
+import Header from './components/layout/header/Header.vue';
 
 const socket = !import.meta.env.SSR ? io(undefined, {
     reconnection: true,
@@ -23,3 +28,22 @@ onMounted(() => {
     socket.emit('debug');
 });
 </script>
+
+<style lang="scss" scoped>
+    .app {
+        display: grid;
+        grid-template-areas:
+            'header'
+            'content';
+        grid-template-columns: 1fr;
+        grid-template-rows: 4rem 1fr;
+    }
+
+    .header {
+        grid-area: header;
+    }
+
+    .content {
+        grid-area: content;
+    }
+</style>
