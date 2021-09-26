@@ -22,7 +22,7 @@ module.exports = {
             host: 'watch',
             ref: 'origin/main',
             repo: 'git@github.com:rherwig/watch.git',
-            path: '/var/www/app',
+            path: '/var/www/watch',
             'pre-deploy-local': '',
             'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
             'pre-setup': '',
