@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const { createServer } = require('http');
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
@@ -67,6 +68,10 @@ const getMarkup = async (url, env) => {
 
     const { vite } = environmentConfig;
 
+    app.use(helmet({
+        contentSecurityPolicy: false,
+    }));
+
     app.use('*', async (req, res) => {
         try {
             const html = await getMarkup(req.originalUrl, environmentConfig);
@@ -90,5 +95,11 @@ const getMarkup = async (url, env) => {
 
     server.listen(3000, () => {
         console.log('Server listening on port 3000...');
+    });
+
+    process.on('SIGTERM', () => {
+        server.close(() => {
+            console.log('Server closed.');
+        });
     });
 })();
