@@ -6,13 +6,21 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import { events, useSocket } from '../../socket';
 
-const emit = defineEmits(['ready', 'destroyed']);
+const emit = defineEmits([
+    'ready',
+    'destroyed',
+    'play',
+    'pause',
+    'stop',
+]);
+
 const socket = useSocket();
 let player = ref(null);
+const playerState = ref(-1);
 
 const createPlayer = (videoId) => {
     const options = {
@@ -30,7 +38,10 @@ const createPlayer = (videoId) => {
                 player.value.stopVideo();
                 emit('ready');
             },
-            onStateChange: (event) => {},
+            onStateChange: (event) => {
+                playerState.value = event.data;
+                console.log(event.target);
+            },
         },
     };
 
@@ -48,6 +59,25 @@ const loadVideo = (videoId) => {
     createPlayer(videoId);
 };
 
+watch(playerState, (state, prevState) => {
+    console.log(`From ${prevState} to ${state}`);
+    switch (state) {
+        case 0:
+            emit('stop');
+            break;
+        case 1:
+            emit('play', {
+                currentTime: player.value.getCurrentTime(),
+            });
+            break;
+        case 2:
+            emit('pause');
+            break;
+        default:
+            break;
+    }
+});
+
 onMounted(() => {
     socket.on(events.VIDEO_LOAD, (payload) => {
         const { videoId } = payload;
@@ -58,16 +88,32 @@ onMounted(() => {
         loadVideo(videoId);
     });
 
-    socket.on(events.VIDEO_PLAY, () => {
-        console.log('play');
+    socket.on(events.VIDEO_PLAY, (payload) => {
+        if (playerState.value === 1) {
+            return;
+        }
+
+        const { currentTime } = payload;
+        if (currentTime) {
+            player.value.seekTo(currentTime);
+        }
+
         player.value.playVideo();
     });
 
     socket.on(events.VIDEO_PAUSE, () => {
+        if (playerState.value === 2) {
+            return;
+        }
+
         player.value.pauseVideo();
     });
 
     socket.on(events.VIDEO_STOP, () => {
+        if (playerState.value === 0) {
+            return;
+        }
+
         player.value.stopVideo();
     });
 });

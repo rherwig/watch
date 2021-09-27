@@ -4,25 +4,30 @@
             <Player
                 @ready="handlePlayerReady"
                 @destroyed="handlePlayerDestroyed"
+                @play="handlePlayerPlay"
+                @pause="handlePlayerPause"
+                @stop="handlePlayerStop"
             />
         </div>
 
         <RoomOverview class="room"/>
 
-        <Controls
-            v-if="isPlayerReady"
-            class="controls"
-        />
+<!--        <Controls-->
+<!--            v-if="isPlayerReady"-->
+<!--            class="controls"-->
+<!--        />-->
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
+import { useSocket, events } from '../socket';
 import Player from '../components/players/Player.vue';
 import Controls from '../components/controls/Controls.vue';
 import RoomOverview from '../components/room/RoomOverview.vue';
 
+const socket = useSocket();
 const isPlayerReady = ref(false);
 
 const handlePlayerReady = () => {
@@ -31,6 +36,18 @@ const handlePlayerReady = () => {
 
 const handlePlayerDestroyed = () => {
     isPlayerReady.value = false;
+};
+
+const handlePlayerPlay = (eventData) => {
+    socket.emit(events.VIDEO_PLAY_REQUEST, eventData);
+};
+
+const handlePlayerPause = () => {
+    socket.emit(events.VIDEO_PAUSE_REQUEST);
+};
+
+const handlePlayerStop = () => {
+    socket.emit(events.VIDEO_STOP_REQUEST);
 };
 </script>
 

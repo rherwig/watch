@@ -45,6 +45,10 @@ export default (io) => {
             socket.emit(events.ROOM_USER_UPDATE, {
                 users,
             });
+
+            socket.emit(events.ROOM_SYNC, {
+                // TODO: Send room information
+            });
         });
 
         socket.on(events.CHAT_MESSAGE_SEND, (payload) => {
@@ -55,6 +59,10 @@ export default (io) => {
         });
 
         socket.on(events.VIDEO_LOAD_REQUEST, (payload) => {
+            const { videoId } = payload;
+
+            socket.data.currentVideoId = videoId;
+
             io.to(socket.room).emit(events.VIDEO_LOAD, payload);
         });
 
