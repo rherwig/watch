@@ -22,7 +22,7 @@
 
 <script setup>
 import { events, useSocket } from '../../socket';
-import Button from '../typography/buttons/Button.vue';
+import Button from '../ui/buttons/Button.vue';
 
 const socket = useSocket();
 

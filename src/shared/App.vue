@@ -20,13 +20,6 @@ const socket = !import.meta.env.SSR ? io(undefined, {
 }) : null;
 
 provide('socket', socket);
-
-onMounted(() => {
-    socket.on("connect_error", (err) => {
-        console.log(err);
-    });
-    socket.emit('debug');
-});
 </script>
 
 <style lang="scss" scoped>

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - './var/db:/data/db'
+    ports:
+      - '27017:27017'
+    environment:
+      - PUID=1000
+      - PGID=1001
+    user: '1000:1001'
+    restart: unless-stopped
+
+  mongo-admin:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+    ports:
+      - '8081:8081'
+    restart: unless-stopped

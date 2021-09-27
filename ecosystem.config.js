@@ -1,12 +1,25 @@
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 module.exports = {
     apps: [
         {
             name: 'watch-app',
             script: 'server.js',
             watch: [
-                './server.js',
-                './src/server',
+                'server.js',
+                'src/server',
             ],
+            ignore_watch: [
+                'node_modules',
+                'var/**/*',
+                'dist'
+            ],
+            watch_options: {
+                followSymlinks: false,
+                usePolling: true,
+            },
             env: {
                 NODE_ENV: 'development',
             },

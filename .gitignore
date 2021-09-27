@@ -1,3 +1,4 @@
+# Generated
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -76,12 +77,10 @@ typings/
 .node_repl_history
 *.tgz
 .yarn-integrity
-.env
-.env.test
+
 .cache
 .next
 .nuxt
-dist
 .cache/
 .vuepress/dist
 .serverless/
@@ -89,4 +88,9 @@ dist
 .dynamodb/
 .tern-port
 
-index.ts
+# Project
+dist
+var/*
+
+.env
+.env.test

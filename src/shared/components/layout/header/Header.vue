@@ -36,12 +36,12 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { events, useSocket } from '../../../socket';
 import logo from '../../../assets/images/logo.png';
-import Button from '../../typography/buttons/Button.vue';
+import Button from '../../ui/buttons/Button.vue';
 
 const route = useRoute();
 const socket = useSocket();
