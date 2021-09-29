@@ -1,20 +1,20 @@
 <template>
     <div class="w-full">
-        <div class="h-full flex flex-col bg-white shadow-xl">
+        <div class="h-full flex flex-col bg-white shadow-xl dark:bg-gray-900">
             <div class="p-6">
                 <div class="flex items-start justify-between">
-                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100" id="slide-over-title">
                         Room
                     </h2>
                 </div>
             </div>
-            <div class="border-b border-gray-200">
+            <div class="border-b border-gray-200 dark:border-gray-800">
                 <div class="px-6">
                     <nav class="-mb-px flex space-x-6">
                         <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
                         <a
                             href="#"
-                            class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                            class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm dark:text-indigo-200 dark:border-indigo-300"
                         >
                             Users
                         </a>
@@ -46,12 +46,12 @@
                                     ></span>
                                 </span>
                                 <div class="ml-4 truncate">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
+                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-100">
                                         {{ user.name }}
                                     </p>
                                     <p
                                         v-if="user.isMe"
-                                        class="text-sm text-gray-500 truncate"
+                                        class="text-sm text-gray-500 truncate dark:text-gray-400"
                                     >
                                         you
                                     </p>
@@ -103,6 +103,11 @@ onMounted(() => {
         }
 
         users.value.set(user.id, user);
+
+        socket.emit(events.ROOM_SYNC, {
+            user,
+            room,
+        });
     });
 
     socket.on(events.ROOM_USER_LEFT, (payload) => {

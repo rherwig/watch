@@ -1,5 +1,5 @@
 <template>
-    <div class="app h-full">
+    <div class="app h-full dark:bg-black">
         <Header class="header"/>
         <main class="content h-full py-1">
             <RouterView/>
@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { onMounted, provide } from 'vue';
+import { provide } from 'vue';
 import io from 'socket.io-client';
 
 import Header from './components/layout/header/Header.vue';

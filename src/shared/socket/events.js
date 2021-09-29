@@ -6,6 +6,7 @@ export const ROOM_USER_JOINED = 'room:user:joined';
 export const ROOM_USER_LEFT = 'room:user:left';
 export const ROOM_USER_UPDATE = 'room:user:update';
 
+export const ROOM_SYNC_REQUEST = 'room:sync:request';
 export const ROOM_SYNC = 'room:sync';
 
 export const CHAT_MESSAGE_SEND = 'chat:message:send';

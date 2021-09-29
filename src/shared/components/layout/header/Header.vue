@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex items-center h-16 px-6 shadow mb-2">
+    <nav class="flex items-center h-16 px-6 shadow mb-2 dark:bg-gray-900 dark:text-gray-100">
         <div class="flex items-center flex-1">
             <span class="inline-flex items-center justify-center bg-gray-900 w-8 h-8 rounded-md">
                 <img
@@ -18,7 +18,7 @@
         >
             <input
                 type="text"
-                class="shadow-sm text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
                 placeholder="Enter a watch ID"
                 v-model="videoId"
             />
@@ -29,8 +29,8 @@
                 Load
             </Button>
         </div>
-        <div class="flex flex-1">
-
+        <div class="flex flex-1 justify-end">
+            <Switch label="Dark Mode" @input="handleDarkMode" :value="isDarkMode"/>
         </div>
     </nav>
 </template>
@@ -42,6 +42,7 @@ import { useRoute } from 'vue-router';
 import { events, useSocket } from '../../../socket';
 import logo from '../../../assets/images/logo.png';
 import Button from '../../ui/buttons/Button.vue';
+import Switch from '../../ui/buttons/Switch.vue';
 
 const route = useRoute();
 const socket = useSocket();
@@ -49,6 +50,17 @@ const videoId = ref('');
 const isSearchVisible = computed(() => {
     return route.name === 'room';
 });
+const isDarkMode = ref(true);
+
+const handleDarkMode = (value) => {
+    isDarkMode.value = value;
+
+    if (isDarkMode.value) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+};
 
 const load = () => {
     socket.emit(events.VIDEO_LOAD_REQUEST, {

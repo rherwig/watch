@@ -39,8 +39,10 @@ const configureDevelopment = async (app) => {
 
         try {
             const template = await vite.transformIndexHtml(url, readFileSync(resolve(root, 'index.html'), 'utf-8'));
-            const { markup } = await render(url, manifest);
-            const document = template.replace('<!--ssr-root-->', markup);
+            const { markup, initialState } = await render(url, manifest);
+            const document = template
+                .replace('<!--vuex-state-->', JSON.stringify(initialState))
+                .replace('<!--ssr-root-->', markup);
 
             return res.status(200).set({ 'Content-Type': 'text/html' }).end(document);
         } catch (error) {
@@ -81,9 +83,11 @@ const configureProduction = async (app) => {
 
         try {
             const template = readFileSync(resolve(__dirname, 'dist/client/index.html'), 'utf-8');
-            const { markup } = await render(url, manifest);
+            const { markup, initialState } = await render(url, manifest);
 
-            const document = template.replace('<!--ssr-root-->', markup);
+            const document = template
+                .replace('<!--vuex-state-->', JSON.stringify(initialState))
+                .replace('<!--ssr-root-->', markup);
 
             return res.status(200).set({ 'Content-Type': 'text/html' }).end(document);
         } catch (error) {
@@ -121,13 +125,13 @@ const configureProduction = async (app) => {
     app.use('/api/v1', api);
     app.use('*', handler);
 
-    try {
-        await connectToDatabase();
-        console.info('[Database] Connection established.');
-    } catch (err) {
-        console.error('[Database] Connection failed', err);
-        process.exit(1);
-    }
+    // try {
+    //     await connectToDatabase();
+    //     console.info('[Database] Connection established.');
+    // } catch (err) {
+    //     console.error('[Database] Connection failed', err);
+    //     process.exit(1);
+    // }
 
     registerSocket(io);
 

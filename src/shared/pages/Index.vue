@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-gray-900 h-full w-full flex items-center justify-center">
-        <div class="text-gray-100 text-center">
+    <div class="bg-gray-200 h-full w-full flex items-center justify-center dark:bg-black">
+        <div class="text-gray-900 dark:text-gray-100 text-center">
             <h1 class="text-7xl font-extrabold mb-8">
                 Greetings, stranger!
             </h1>

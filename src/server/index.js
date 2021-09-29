@@ -9,6 +9,7 @@ const render = async (url) => {
     const {
         app,
         router,
+        store,
     } = createApp();
 
     const context = {};
@@ -16,10 +17,12 @@ const render = async (url) => {
     await router.push(url);
     await router.isReady();
 
+    const initialState = store.state;
     const markup = await renderToString(app, context);
 
     return {
         markup,
+        initialState,
     };
 };
 
