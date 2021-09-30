@@ -67,7 +67,7 @@ const load = () => {
     const videoId = videoLink.value.match(idRegex)[1];
 
     socket.emit(events.VIDEO_LOAD_REQUEST, {
-        videoId: videoId
+        videoId,
     });
 
     videoLink.value = '';
