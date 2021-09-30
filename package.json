@@ -24,6 +24,12 @@
     "name": "Rico Herwig",
     "email": "rherwig4711@gmail.com"
   },
+  "contributors": [
+    {
+      "name": "Patrick Hlustik",
+      "email": "patrick.hlustik@googlemail.com"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.3",
