@@ -2,6 +2,14 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const {
+    SSH_HOST,
+    SSH_USER,
+    GIT_REPOSITORY,
+    GIT_BRANCH,
+    WEB_ROOT,
+} = process.env;
+
 module.exports = {
     apps: [
         {
@@ -31,11 +39,11 @@ module.exports = {
 
     deploy: {
         production: {
-            user: 'root',
-            host: 'watch',
-            ref: 'origin/main',
-            repo: 'git@github.com:rherwig/watch.git',
-            path: '/var/www/watch',
+            user: SSH_USER,
+            host: SSH_HOST,
+            ref: GIT_BRANCH,
+            repo: GIT_REPOSITORY,
+            path: WEB_ROOT,
             'pre-deploy-local': '',
             'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
             'pre-setup': '',
