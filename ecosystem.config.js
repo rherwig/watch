@@ -44,6 +44,7 @@ module.exports = {
             ref: GIT_BRANCH,
             repo: GIT_REPOSITORY,
             path: WEB_ROOT,
+            ssh_options: 'ForwardAgent=yes',
             'pre-deploy-local': '',
             'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
             'pre-setup': '',
