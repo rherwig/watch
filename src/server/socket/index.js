@@ -1,11 +1,21 @@
-import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+import {
+    uniqueNamesGenerator,
+    adjectives,
+    colors,
+    animals,
+} from 'unique-names-generator';
+
 import * as events from '../../shared/socket/events';
 
 const createUsername = () => {
     const name = uniqueNamesGenerator({
         style: 'capital',
         separator: ' ',
-        dictionaries: [adjectives, colors, animals],
+        dictionaries: [
+            adjectives,
+            colors,
+            animals,
+        ],
     });
 
     return name;
@@ -36,7 +46,7 @@ export default (io) => {
             socket.emit(events.ROOM_JOIN_CONFIRM, payload);
 
             const socketsInRoom = io.sockets.adapter.rooms.get(socket.room);
-            const users = socketsInRoom.size ? [...socketsInRoom].map(socketId => {
+            const users = socketsInRoom.size ? [...socketsInRoom].map((socketId) => {
                 const { data } = io.sockets.sockets.get(socketId);
 
                 return data.user;

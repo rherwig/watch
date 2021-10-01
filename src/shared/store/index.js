@@ -12,13 +12,13 @@ export default () => {
         import.meta.hot.accept([
             './store/modules',
         ], () => {
-            const modules = require('./modules').default;
+            const nextModules = require('./modules').default;
 
             store.hotUpdate({
-                modules,
+                modules: nextModules,
             });
         });
     }
 
     return store;
-}
+};
