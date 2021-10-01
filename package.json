@@ -10,6 +10,11 @@
     "build": "npm run build:server && npm run build:client",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/server/index.js --outDir dist/server",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint src/",
+    "lint:js:fix": "eslint src/ --fix",
+    "lint:css": "stylelint src/",
+    "lint:css:fix": "stylelint src/ --fix",
     "deploy": "pm2 deploy production"
   },
   "keywords": [
@@ -32,13 +37,19 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@kellerkinder/eslint-config": "^2.0.0",
+    "@kellerkinder/stylelint-config": "^1.0.0",
     "@tailwindcss/forms": "^0.3.3",
     "@vitejs/plugin-vue": "^1.9.1",
     "autoprefixer": "^10.2.5",
     "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.2",
     "pm2": "^5.1.2",
     "postcss": "^8.3.0",
     "sass": "^1.33.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "tailwindcss": "^2.2.15",
     "vite": "^2.3.3"
   },
