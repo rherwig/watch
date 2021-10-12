@@ -18,9 +18,6 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           if_key_exists: replace
 
-      - name: Show SSH keysw
-        run: ssh-add -L
-
       - name: Create env file
         run: |
           touch .env
