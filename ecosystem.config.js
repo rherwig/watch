@@ -5,6 +5,7 @@ dotenv.config();
 const {
     SSH_HOST,
     SSH_USER,
+    SSH_KEY,
     GIT_REPOSITORY,
     GIT_BRANCH,
     WEB_ROOT,
@@ -41,6 +42,7 @@ module.exports = {
         production: {
             user: SSH_USER,
             host: SSH_HOST,
+            key: SSH_KEY,
             ref: GIT_BRANCH,
             repo: GIT_REPOSITORY,
             path: WEB_ROOT,
