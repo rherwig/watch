@@ -1,6 +1,9 @@
 import createApp from '../shared';
+import createSocketPlugin from './store/plugins/socket';
 
-const { app, router, store } = createApp();
+const { app, router, store } = createApp({
+    storePlugins: [createSocketPlugin()],
+});
 
 /**
  * Hydrates the server-side rendered app with the client app,

@@ -19,7 +19,7 @@
             <input
                 type="text"
                 class="shadow-sm text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
-                placeholder="Enter a watch ID"
+                placeholder="Enter a video URL"
                 v-model="videoLink"
             />
             <Button
@@ -38,19 +38,20 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-import { events, useSocket } from '../../../socket';
 import logo from '../../../assets/images/logo.png';
 import Button from '../../ui/buttons/Button.vue';
 import Switch from '../../ui/buttons/Switch.vue';
 
 const route = useRoute();
-const socket = useSocket();
+const store = useStore();
+
 const videoLink = ref('');
+const isDarkMode = ref(true);
 const isSearchVisible = computed(() => {
     return route.name === 'room';
 });
-const isDarkMode = ref(true);
 
 const handleDarkMode = (value) => {
     isDarkMode.value = value;
@@ -66,7 +67,7 @@ const load = () => {
     const idRegex = /([A-Za-z0-9_\-]{11})($|&|\?)/;
     const videoId = videoLink.value.match(idRegex)[1];
 
-    socket.emit(events.VIDEO_LOAD_REQUEST, {
+    store.dispatch('video/load', {
         videoId,
     });
 

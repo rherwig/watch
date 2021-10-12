@@ -11,7 +11,6 @@
             <div class="border-b border-gray-200 dark:border-gray-800">
                 <div class="px-6">
                     <nav class="-mb-px flex space-x-6">
-                        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
                         <a
                             href="#"
                             class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm dark:text-indigo-200 dark:border-indigo-300"
@@ -21,15 +20,15 @@
                     </nav>
                 </div>
             </div>
-            <ul role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto">
+            <ul role="list" class="flex-1 divide-y divide-gray-200 dark:divide-gray-800 overflow-y-auto">
                 <li
-                    v-for="user in users.values()"
+                    v-for="user in users"
                     :key="user.id"
                 >
                     <div class="relative group py-6 px-5 flex items-center">
                         <a href="#" class="-m-1 flex-1 block p-1">
                             <div
-                                class="absolute inset-0 group-hover:bg-gray-50"
+                                class="absolute inset-0 group-hover:bg-gray-50 dark:group-hover:bg-gray-800"
                                 aria-hidden="true"
                             ></div>
                             <div class="flex-1 flex items-center min-w-0 relative">
@@ -50,7 +49,7 @@
                                         {{ user.name }}
                                     </p>
                                     <p
-                                        v-if="user.isMe"
+                                        v-if="me.id === user.id"
                                         class="text-sm text-gray-500 truncate dark:text-gray-400"
                                     >
                                         you
@@ -60,85 +59,17 @@
                         </a>
                     </div>
                 </li>
-
-                <!-- More people... -->
             </ul>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-import { events, useSocket } from '../../socket';
+const store = useStore();
 
-const route = useRoute();
-const socket = useSocket();
-
-const { name } = route.params;
-const isJoined = ref(false);
-const users = ref(new Map());
-const chatMessages = ref([]);
-const chatMessage = ref('');
-
-onMounted(() => {
-    socket.emit(events.ROOM_JOIN_TRY, {
-        name,
-    });
-
-    socket.on(events.ROOM_JOIN_CONFIRM, (payload) => {
-        if (payload.name !== name) {
-            return;
-        }
-
-        isJoined.value = true;
-    });
-
-    socket.on(events.ROOM_USER_JOINED, (payload) => {
-        const { room, user } = payload;
-
-        if (room !== name) {
-            return;
-        }
-
-        users.value.set(user.id, user);
-
-        socket.emit(events.ROOM_SYNC, {
-            user,
-            room,
-        });
-    });
-
-    socket.on(events.ROOM_USER_LEFT, (payload) => {
-        const { id } = payload.user;
-
-        users.value.delete(id);
-    });
-
-    socket.on(events.ROOM_USER_UPDATE, (payload) => {
-        payload.users.forEach((user) => {
-            if (user.id === socket.id) {
-                user.isMe = true;
-            }
-
-            users.value.set(user.id, user);
-        });
-    });
-
-    socket.on(events.CHAT_MESSAGE_RECEIVED, (payload) => {
-        chatMessages.value.push({
-            user: payload.user,
-            message: payload.message,
-        });
-    });
-});
-
-const sendMessage = () => {
-    socket.emit(events.CHAT_MESSAGE_SEND, {
-        message: chatMessage.value,
-    });
-
-    chatMessage.value = '';
-};
+const users = computed(() => store.state.users.all);
+const me = computed(() => store.getters['users/me']);
 </script>

@@ -22,7 +22,7 @@ module.exports = {
             ignore_watch: [
                 'node_modules',
                 'var/**/*',
-                'dist'
+                'dist',
             ],
             watch_options: {
                 followSymlinks: false,

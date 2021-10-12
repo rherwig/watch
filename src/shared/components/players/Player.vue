@@ -6,21 +6,19 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 
-import { events, useSocket } from '../../socket';
+import * as playerState from '@/constants/youtube-player';
 
-const emit = defineEmits([
-    'ready',
-    'destroyed',
-    'play',
-    'pause',
-    'stop',
-]);
+const store = useStore();
 
-const socket = useSocket();
-let player = ref(null);
-const playerState = ref(-1);
+const player = ref(null);
+const isPlayPending = ref(false);
+
+const videoId = computed(() => store.state.video.id);
+const remoteVideoState = computed(() => store.state.video.remoteState);
+const localVideoState = computed(() => store.state.video.localState);
 
 const createPlayer = (videoId) => {
     const options = {
@@ -30,17 +28,16 @@ const createPlayer = (videoId) => {
         playerVars: {
             playsinline: 1,
             enablejsapi: 1,
-            autoplay: 1,
+            autoplay: 0,
         },
         events: {
             onReady: (event) => {
                 player.value = event.target;
-                player.value.stopVideo();
-                emit('ready');
             },
             onStateChange: (event) => {
-                playerState.value = event.data;
-                console.log(event.target);
+                store.dispatch('video/setLocalState', {
+                    state: event.data,
+                });
             },
         },
     };
@@ -48,30 +45,51 @@ const createPlayer = (videoId) => {
     new YT.Player('player', options);
 };
 
-const loadVideo = (videoId) => {
+watch(videoId, (nextVideoId) => {
     if (player.value) {
-        emit('destroyed');
         player.value.destroy();
     }
 
     player.value = null;
 
-    createPlayer(videoId);
-};
+    createPlayer(nextVideoId);
+});
 
-watch(playerState, (state, prevState) => {
-    console.log(`From ${prevState} to ${state}`);
+watch(localVideoState, (state, prevState) => {
+    console.log(`[LOCAL] From ${prevState} to ${state}`);
+
     switch (state) {
-        case 0:
-            emit('stop');
+        case playerState.ENDED:
+            store.dispatch('video/stop');
             break;
-        case 1:
-            emit('play', {
+        case playerState.PLAYING:
+            store.dispatch('video/play', {
                 currentTime: player.value.getCurrentTime(),
             });
             break;
-        case 2:
-            emit('pause');
+        case playerState.PAUSED:
+            store.dispatch('video/pause');
+            break;
+        default:
+            break;
+    }
+});
+
+watch(remoteVideoState, (state, prevState) => {
+    console.log(`[REMOTE] From ${prevState} to ${state}`);
+
+    switch (state) {
+        case playerState.ENDED:
+            player.value.stopVideo();
+
+            break;
+        case playerState.PLAYING:
+            player.value.playVideo();
+
+            break;
+        case playerState.PAUSED:
+            player.value.pauseVideo();
+
             break;
         default:
             break;
@@ -79,42 +97,33 @@ watch(playerState, (state, prevState) => {
 });
 
 onMounted(() => {
-    socket.on(events.VIDEO_LOAD, (payload) => {
-        const { videoId } = payload;
-        if (!videoId) {
-            return;
-        }
-
-        loadVideo(videoId);
-    });
-
-    socket.on(events.VIDEO_PLAY, (payload) => {
-        if (playerState.value === 1) {
-            return;
-        }
-
-        const { currentTime } = payload;
-        if (currentTime) {
-            player.value.seekTo(currentTime);
-        }
-
-        player.value.playVideo();
-    });
-
-    socket.on(events.VIDEO_PAUSE, () => {
-        if (playerState.value === 2) {
-            return;
-        }
-
-        player.value.pauseVideo();
-    });
-
-    socket.on(events.VIDEO_STOP, () => {
-        if (playerState.value === 0) {
-            return;
-        }
-
-        player.value.stopVideo();
-    });
+    // socket.on(events.VIDEO_PLAY, (payload) => {
+    //     if (playerState.value === 1) {
+    //         return;
+    //     }
+    //
+    //     const { currentTime } = payload;
+    //     if (currentTime) {
+    //         player.value.seekTo(currentTime);
+    //     }
+    //
+    //     player.value.playVideo();
+    // });
+    //
+    // socket.on(events.VIDEO_PAUSE, () => {
+    //     if (playerState.value === 2) {
+    //         return;
+    //     }
+    //
+    //     player.value.pauseVideo();
+    // });
+    //
+    // socket.on(events.VIDEO_STOP, () => {
+    //     if (playerState.value === 0) {
+    //         return;
+    //     }
+    //
+    //     player.value.stopVideo();
+    // });
 });
 </script>

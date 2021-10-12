@@ -13,6 +13,11 @@ const routes = [
         path: '/rooms/:name',
         component: () => import('../pages/Room.vue'),
     },
+    {
+        name: 'dev',
+        path: '/dev',
+        component: () => import('../pages/Development.vue'),
+    },
 ];
 
 const history = isServer

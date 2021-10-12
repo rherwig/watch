@@ -1,29 +1,29 @@
-export const ROOM_JOIN_TRY = 'room:join:try';
-export const ROOM_JOIN_CONFIRM = 'room:join:confirm';
-export const ROOM_JOIN = 'room:join';
+export const ROOM_JOIN_TRY = 'ROOM_JOIN_TRY';
+export const ROOM_JOIN_CONFIRM = 'ROOM_JOIN_CONFIRM';
+export const ROOM_JOIN = 'ROOM_JOIN';
 
-export const ROOM_USER_JOINED = 'room:user:joined';
-export const ROOM_USER_LEFT = 'room:user:left';
-export const ROOM_USER_UPDATE = 'room:user:update';
+export const ROOM_USER_JOINED = 'ROOM_USER_JOINED';
+export const ROOM_USER_LEFT = 'ROOM_USER_LEFT';
+export const ROOM_USER_UPDATE = 'ROOM_USER_UPDATE';
 
-export const ROOM_SYNC_REQUEST = 'room:sync:request';
-export const ROOM_SYNC = 'room:sync';
+export const ROOM_SYNC_REQUEST = 'ROOM_sync_REQUEST';
+export const ROOM_SYNC = 'ROOM_SYNC';
 
-export const CHAT_MESSAGE_SEND = 'chat:message:send';
-export const CHAT_MESSAGE_RECEIVED = 'chat:message:received';
+export const CHAT_MESSAGE_SEND = 'CHAT_MESSAGE_SEND';
+export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 
-export const VIDEO_LOAD_REQUEST = 'video:load:request';
-export const VIDEO_LOAD = 'video:load';
-export const VIDEO_LOAD_DONE = 'video:load:done';
+export const VIDEO_LOAD_REQUEST = 'VIDEO_LOAD_REQUEST';
+export const VIDEO_LOAD = 'VIDEO_LOAD';
+export const VIDEO_LOAD_DONE = 'VIDEO_LOAD_DONE';
 
-export const VIDEO_PLAY_REQUEST = 'video:play:request';
-export const VIDEO_PLAY = 'video:play';
-export const VIDEO_PLAY_DONE = 'video:play:done';
+export const VIDEO_PLAY_REQUEST = 'VIDEO_PLAY_REQUEST';
+export const VIDEO_PLAY = 'VIDEO_PLAY';
+export const VIDEO_PLAY_DONE = 'VIDEO_PLAY_DONE';
 
-export const VIDEO_PAUSE_REQUEST = 'video:pause:request';
-export const VIDEO_PAUSE = 'video:pause';
-export const VIDEO_PAUSE_DONE = 'video:pause:done';
+export const VIDEO_PAUSE_REQUEST = 'VIDEO_PAUSE_REQUEST';
+export const VIDEO_PAUSE = 'VIDEO_PAUSE';
+export const VIDEO_PAUSE_DONE = 'VIDEO_PAUSE_DONE';
 
-export const VIDEO_STOP_REQUEST = 'video:stop:request';
-export const VIDEO_STOP = 'video:stop';
-export const VIDEO_STOP_DONE = 'video:stop:done';
+export const VIDEO_STOP_REQUEST = 'VIDEO_STOP_REQUEST';
+export const VIDEO_STOP = 'VIDEO_STOP';
+export const VIDEO_STOP_DONE = 'VIDEO_STOP_DONE';

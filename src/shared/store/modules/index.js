@@ -1,5 +1,7 @@
-import test from './test.js';
+import users from './users';
+import video from './video';
 
 export default {
-    test,
+    users,
+    video,
 };
