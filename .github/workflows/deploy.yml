@@ -32,8 +32,5 @@ jobs:
       - name: Install PM2
         run: npm i pm2
 
-      - name: Status
-        run: git status
-
       - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) npm run deploy
+        run: env $(cat .env | grep -v \"#\" | xargs) npm run deploy -- --force
