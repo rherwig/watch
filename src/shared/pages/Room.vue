@@ -5,6 +5,8 @@
         </div>
 
         <RoomOverview class="room"/>
+
+        <Chat class="chat"/>
     </div>
 </template>
 
@@ -13,8 +15,9 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Player from '../components/players/Player.vue';
 import RoomOverview from '../components/room/RoomOverview.vue';
+import Player from '@/components/players/Player.vue';
+import Chat from '@/components/chat/Chat.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -31,9 +34,11 @@ onMounted(() => {
         display: grid;
         grid-template-areas:
             'video room'
-            'controls .';
+            'video chat';
+        grid-template-rows: 50% 50%;
         grid-template-columns: 1fr 400px;
         gap: 8px;
+        height: 100%;
     }
 
     .video {
@@ -44,7 +49,7 @@ onMounted(() => {
         grid-area: room;
     }
 
-    .controls {
-        grid-area: controls;
+    .chat {
+        grid-area: chat;
     }
 </style>
