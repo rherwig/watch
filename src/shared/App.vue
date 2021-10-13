@@ -1,7 +1,7 @@
 <template>
     <div class="app h-full dark:bg-black">
         <Header class="header"/>
-        <main class="content h-full py-1">
+        <main class="content h-full py-1 overflow-hidden">
             <RouterView/>
         </main>
     </div>
@@ -30,6 +30,7 @@ provide('socket', socket);
             'content';
         grid-template-columns: 1fr;
         grid-template-rows: 4rem 1fr;
+        height: 100%;
     }
 
     .header {
