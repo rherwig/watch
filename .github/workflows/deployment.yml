@@ -1,20 +1,15 @@
-name: NodeJS CI
-
-#on:
-#  release:
-#    types: [created]
+name: Deployment
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 
 jobs:
   deployment:
     runs-on: ubuntu-latest
     environment:
       name: Production
-      url: test.hrwg.de
+      url: watch.hrwg.de
 
     steps:
       - uses: actions/checkout@v2
