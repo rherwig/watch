@@ -10,30 +10,27 @@ on:
       - main
 
 jobs:
-  deploy:
+  deployment:
     runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: test.hrwg.de
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          sudo chmod 600 ~/.ssh/id_ed25519
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          eval `ssh-agent -s`
-          ssh-add
-        shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Scan known hosts
+        run: ssh-keyscan -H 164.90.172.241 >> ~/.ssh/known_hosts
 
       - name: Create env file
         run: |
           touch .env
           echo SSH_HOST=164.90.172.241 >> .env
           echo SSH_USER=root >> .env
-          echo SSH_KEY=~/.ssh/id_ed25519 >> .env
           echo GIT_REPOSITORY=git@github.com:rherwig/watch.git >> .env
           echo GIT_BRANCH=origin/main >> .env
           echo WEB_ROOT=/var/www/watch >> .env
