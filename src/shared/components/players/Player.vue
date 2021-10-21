@@ -84,6 +84,10 @@ watch(remoteVideoState, (state, prevState) => {
 
             break;
         case playerState.PLAYING:
+            if (store.state.video.currentTime) {
+                player.value.seekTo(store.state.video.currentTime);
+            }
+
             player.value.playVideo();
 
             break;
