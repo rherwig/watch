@@ -1,38 +1,40 @@
 import { events } from '@/socket';
-import * as playerStates from '@/constants/youtube-player';
+import { playerState } from '@/constants/player';
 
 export default {
     namespaced: true,
 
     state: () => ({
         id: null,
-        localState: playerStates.UNSTARTED,
-        remoteState: playerStates.UNSTARTED,
+        type: null,
+        localState: playerState.UNSTARTED,
+        remoteState: playerState.UNSTARTED,
         currentTime: 0,
     }),
 
     mutations: {
         [events.VIDEO_LOAD](state, payload) {
-            const { videoId } = payload;
+            const { videoId, type } = payload;
 
-            if (!videoId) {
+            if (!videoId || !type) {
                 return;
             }
 
             state.id = videoId;
+            state.type = type;
         },
 
         [events.VIDEO_PLAY](state, payload) {
-            state.remoteState = playerStates.PLAYING;
+            state.remoteState = playerState.PLAYING;
             state.currentTime = payload.currentTime;
         },
 
         [events.VIDEO_PAUSE](state) {
-            state.remoteState = playerStates.PAUSED;
+            state.remoteState = playerState.PAUSED;
         },
 
         [events.VIDEO_STOP](state) {
-            state.remoteState = playerStates.ENDED;
+            state.remoteState = playerState.ENDED;
         },
 
         setLocalState(state, payload) {

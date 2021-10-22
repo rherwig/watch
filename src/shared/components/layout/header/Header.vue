@@ -42,6 +42,7 @@ import logo from '../../../assets/images/logo.png';
 import Button from '../../ui/buttons/Button.vue';
 import Switch from '../../ui/buttons/Switch.vue';
 import TextInput from '@/components/ui/inputs/TextInput.vue';
+import { playerType } from '@/constants/player';
 
 const route = useRoute();
 const store = useStore();
@@ -51,6 +52,8 @@ const isDarkMode = ref(true);
 const isSearchVisible = computed(() => {
     return route.name === 'room';
 });
+
+const idRegex = /([A-Za-z0-9_\-]{11})($|&|\?)/;
 
 const handleDarkMode = (value) => {
     isDarkMode.value = value;
@@ -62,12 +65,28 @@ const handleDarkMode = (value) => {
     }
 };
 
+const getPlayerInfos = () => {
+    // Youtube
+    if (videoLink.value.includes('youtu')) {
+        return [ playerType.YOUTUBE, videoLink.value.match(idRegex)[1] ];
+    }
+
+    // Dailymotion
+    // TBD
+
+    // HTMLV
+    // TBD
+
+    // Unknown source
+    return [ null, playerType.UNDEFINED ];
+};
+
 const load = () => {
-    const idRegex = /([A-Za-z0-9_\-]{11})($|&|\?)/;
-    const videoId = videoLink.value.match(idRegex)[1];
+    const [ type, videoId ] = getPlayerInfos();
 
     store.dispatch('video/load', {
         videoId,
+        type,
     });
 
     videoLink.value = '';
