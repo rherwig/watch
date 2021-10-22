@@ -1,0 +1,18 @@
+name: ESLint
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node Modules
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint:js
