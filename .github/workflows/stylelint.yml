@@ -14,5 +14,5 @@ jobs:
       - name: Install Node Modules
         run: npm ci
 
-      - name: Run ESLint
+      - name: Run Stylelint
         run: npm run lint:css
