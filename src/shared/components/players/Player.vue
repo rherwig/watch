@@ -10,7 +10,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import { playerState } from '@/constants/player';
-import { PlayerFactory } from '@/factories/PlayerFactory';
+import PlayerFactory from '@/factories/PlayerFactory';
 
 const store = useStore();
 

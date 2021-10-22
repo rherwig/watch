@@ -1,8 +1,8 @@
 import * as youtubeState from '@/constants/youtube-player';
 import { playerState } from '@/constants/player';
-import { Player } from '@/classes/Player';
+import Player from '@/classes/Player';
 
-export class YoutubePlayer extends Player {
+export default class YoutubePlayer extends Player {
     constructor(videoId, store) {
         super();
 

@@ -1,6 +1,6 @@
 import { playerState } from '@/constants/player';
 
-export class Player {
+export default class Player {
     internalState = playerState.UNDEFINED;
     player = null;
 

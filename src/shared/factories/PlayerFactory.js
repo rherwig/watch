@@ -1,7 +1,7 @@
 import { playerType } from '@/constants/player';
-import { YoutubePlayer } from '@/classes/YoutubePlayer';
+import YoutubePlayer from '@/classes/YoutubePlayer';
 
-export class PlayerFactory {
+export default class PlayerFactory {
     static getPlayer(type, options) {
         switch(type) {
             case playerType.YOUTUBE:
