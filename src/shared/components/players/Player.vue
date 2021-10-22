@@ -10,6 +10,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import * as playerState from '@/constants/youtube-player';
+import { Player } from '@/classes/Player';
 
 const store = useStore();
 
@@ -20,39 +21,17 @@ const videoId = computed(() => store.state.video.id);
 const remoteVideoState = computed(() => store.state.video.remoteState);
 const localVideoState = computed(() => store.state.video.localState);
 
-const createPlayer = (videoId) => {
-    const options = {
-        height: '100%',
-        width: '100%',
-        videoId,
-        playerVars: {
-            playsinline: 1,
-            enablejsapi: 1,
-            autoplay: 0,
-        },
-        events: {
-            onReady: (event) => {
-                player.value = event.target;
-            },
-            onStateChange: (event) => {
-                store.dispatch('video/setLocalState', {
-                    state: event.data,
-                });
-            },
-        },
-    };
-
-    new YT.Player('player', options);
-};
-
 watch(videoId, (nextVideoId) => {
     if (player.value) {
-        player.value.destroy();
+        player.value.destruct();
     }
 
     player.value = null;
 
-    createPlayer(nextVideoId);
+    player.value = Player.getPlayer(store.state.video.type, {
+        videoId:videoId.value,
+        store
+    });
 });
 
 watch(localVideoState, (state, prevState) => {
@@ -80,18 +59,15 @@ watch(remoteVideoState, (state, prevState) => {
 
     switch (state) {
         case playerState.ENDED:
-            player.value.stopVideo();
+            player.value.stop();
 
             break;
         case playerState.PLAYING:
-            if (store.state.video.currentTime) {
-                player.value.seekTo(store.state.video.currentTime);
-            }
-            player.value.playVideo();
+            player.value.play(store.state.video.currentTime);
 
             break;
         case playerState.PAUSED:
-            player.value.pauseVideo();
+            player.value.pause();
 
             break;
         default:
