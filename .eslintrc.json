@@ -1,3 +1,6 @@
 {
-  "extends": "@kellerkinder/eslint-config"
+  "extends": "@kellerkinder/eslint-config",
+  "globals": {
+    "YT": true
+  }
 }

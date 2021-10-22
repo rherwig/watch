@@ -51,16 +51,16 @@ export default class YoutubePlayer extends Player {
 
             default:
                 return playerState.UNDEFINED;
-        };
-    };
+        }
+    }
 
     stop() {
         this.player.stopVideo();
-    };
+    }
 
     pause() {
         this.player.pauseVideo();
-    };
+    }
 
     play(time = null) {
         if (time) {
@@ -68,7 +68,7 @@ export default class YoutubePlayer extends Player {
         }
 
         this.player.playVideo();
-    };
+    }
 
     destruct() {
         this.player.destroy();
@@ -85,4 +85,4 @@ export default class YoutubePlayer extends Player {
     getTitle() {
         // TBD
     }
-};
+}
