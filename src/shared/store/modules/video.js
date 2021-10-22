@@ -1,5 +1,5 @@
 import { events } from '@/socket';
-import * as playerState from '@/constants/youtube-player';
+import { playerState } from '@/constants/player';
 
 export default {
     namespaced: true,

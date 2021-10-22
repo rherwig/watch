@@ -48,11 +48,11 @@ export class YoutubePlayer extends Player {
                     this.player = event.target;
                 },
                 onStateChange: (event) => {
-                    store.dispatch('video/setLocalState', {
-                        state: event.data,
-                    });
-
                     this.internalState = event.data;
+
+                    store.dispatch('video/setLocalState', {
+                        state: this.getState(),
+                    });
                 },
             },
         };

@@ -9,7 +9,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import * as playerState from '@/constants/youtube-player';
+import { playerState } from '@/constants/player';
 import { Player } from '@/classes/Player';
 
 const store = useStore();
