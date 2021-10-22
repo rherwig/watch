@@ -10,7 +10,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import { playerState } from '@/constants/player';
-import { Player } from '@/classes/Player';
+import { PlayerFactory } from '@/factories/PlayerFactory';
 
 const store = useStore();
 
@@ -28,9 +28,9 @@ watch(videoId, (nextVideoId) => {
 
     player.value = null;
 
-    player.value = Player.getPlayer(store.state.video.type, {
+    player.value = PlayerFactory.getPlayer(store.state.video.type, {
         videoId:videoId.value,
-        store
+        store,
     });
 });
 
