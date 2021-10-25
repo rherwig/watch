@@ -27,7 +27,7 @@ watch(videoId, (nextVideoId) => {
     }
 
     player.value = null;
-
+    
     player.value = PlayerFactory.getPlayer(store.state.video.type, {
         videoId:videoId.value,
         store,
