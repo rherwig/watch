@@ -87,6 +87,10 @@ export default (io) => {
         socket.on(events.VIDEO_STOP_REQUEST, (payload) => {
             io.to(socket.room).emit(events.VIDEO_STOP, payload);
         });
+
+        socket.on(events.VIDEO_BUFFER_REQUEST, (payload) => {
+            io.to(socket.room).emit(events.VIDEO_BUFFER, payload);
+        });
     });
 
     io.of('/').adapter.on('join-room', (room, id) => {

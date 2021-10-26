@@ -77,7 +77,7 @@ export default class DailymotionPlayer extends Player {
     }
 
     destruct() {
-        this.player.release();
+        this.player.destroy('player');
     }
 
     getCurrentTime() {

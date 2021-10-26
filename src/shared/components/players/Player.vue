@@ -27,7 +27,7 @@ watch(videoId, (nextVideoId) => {
     }
 
     player.value = null;
-    
+
     player.value = PlayerFactory.getPlayer(store.state.video.type, {
         videoId:videoId.value,
         store,
@@ -48,6 +48,9 @@ watch(localVideoState, (state, prevState) => {
             break;
         case playerState.PAUSED:
             store.dispatch('video/pause');
+            break;
+        case playerState.BUFFERING:
+            store.dispatch('video/buffer');
             break;
         default:
             break;
