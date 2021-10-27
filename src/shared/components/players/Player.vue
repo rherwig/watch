@@ -49,6 +49,9 @@ watch(localVideoState, (state, prevState) => {
         case playerState.PAUSED:
             store.dispatch('video/pause');
             break;
+        case playerState.BUFFERING:
+            store.dispatch('video/buffer');
+            break;
         default:
             break;
     }

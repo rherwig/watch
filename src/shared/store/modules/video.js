@@ -37,6 +37,10 @@ export default {
             state.remoteState = playerState.ENDED;
         },
 
+        [events.VIDEO_BUFFER](state) {
+            state.remoteState = playerState.BUFFERING;
+        },
+
         setLocalState(state, payload) {
             state.localState = payload.state;
         },
@@ -57,6 +61,10 @@ export default {
 
         stop(context, payload) {
             this.$socket.emit(events.VIDEO_STOP_REQUEST, payload);
+        },
+
+        buffer(context, payload) {
+            this.$socket.emit(events.VIDEO_BUFFER_REQUEST, payload);
         },
 
         setLocalState(context, payload) {

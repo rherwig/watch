@@ -53,7 +53,10 @@ const isSearchVisible = computed(() => {
     return route.name === 'room';
 });
 
-const idRegex = /([A-Za-z0-9_\-]{11})($|&|\?)/;
+const idRegex = {
+    Youtube: /([A-Za-z0-9_\-]{11})($|&|\?)/,
+    Dailymotion: /\/([A-Za-z0-9_\-]{7,})$|\?/,
+};
 
 const handleDarkMode = (value) => {
     isDarkMode.value = value;
@@ -68,17 +71,19 @@ const handleDarkMode = (value) => {
 const getPlayerInfos = () => {
     // Youtube
     if (videoLink.value.includes('youtu')) {
-        return [ playerType.YOUTUBE, videoLink.value.match(idRegex)[1] ];
+        return [ playerType.YOUTUBE, videoLink.value.match(idRegex.Youtube)[1] ];
     }
 
     // Dailymotion
-    // TBD
+    if (videoLink.value.includes('dailymotion') || videoLink.value.includes('dai.ly')) {
+        return [ playerType.DAILYMOTION, videoLink.value.match(idRegex.Dailymotion)[1]];
+    }
 
     // HTMLV
     // TBD
 
     // Unknown source
-    return [ null, playerType.UNDEFINED ];
+    return [ playerType.UNDEFINED, null ];
 };
 
 const load = () => {

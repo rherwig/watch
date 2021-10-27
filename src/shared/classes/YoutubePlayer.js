@@ -22,6 +22,10 @@ export default class YoutubePlayer extends Player {
                 onStateChange: (event) => {
                     this.internalState = event.data;
 
+                    if (this.getState() === playerState.BUFFERING) {
+                        return;
+                    }
+
                     store.dispatch('video/setLocalState', {
                         state: this.getState(),
                     });
