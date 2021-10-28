@@ -2,6 +2,9 @@ import Player from './Player';
 import { playerState } from '@/constants/player';
 
 export default class DailymotionPlayer extends Player {
+    // Minimum time in seconds for time changes to be acknowledged
+    MIN_SEEK_TIME = 5;
+
     constructor(videoId, store) {
         super();
 
@@ -22,12 +25,6 @@ export default class DailymotionPlayer extends Player {
         });
 
         this.player.addEventListener('start', () => {
-            store.dispatch('video/setLocalState', {
-                state: playerState.PLAYING,
-            });
-        });
-
-        this.player.addEventListener('play', () => {
             store.dispatch('video/setLocalState', {
                 state: playerState.PLAYING,
             });
@@ -69,7 +66,14 @@ export default class DailymotionPlayer extends Player {
     }
 
     play(time = null) {
-        if (time) {
+        if (!time) {
+            this.player.play();
+            return;
+        }
+
+        // To avoid buffer-play-loops we only seek a new position on significant time changes
+        if (Math.abs(time - this.player.currentTime) > this.MIN_SEEK_TIME) {
+            console.log('SEEKING TIME: ', time);
             this.player.seek(time);
         }
 
