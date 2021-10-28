@@ -73,7 +73,6 @@ export default class DailymotionPlayer extends Player {
 
         // To avoid buffer-play-loops we only seek a new position on significant time changes
         if (Math.abs(time - this.player.currentTime) > this.MIN_SEEK_TIME) {
-            console.log('SEEKING TIME: ', time);
             this.player.seek(time);
         }
 
