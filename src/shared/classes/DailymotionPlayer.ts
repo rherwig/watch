@@ -55,6 +55,7 @@ export default class DailymotionPlayer extends Player {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     getState() {}
 
     stop() {
@@ -87,6 +88,7 @@ export default class DailymotionPlayer extends Player {
         return this.player.currentTime;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     getTotalTime() {}
 
     getTitle() {

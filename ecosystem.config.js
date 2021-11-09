@@ -14,9 +14,9 @@ module.exports = {
     apps: [
         {
             name: 'watch-app',
-            script: 'server.js',
+            script: 'server.ts',
             watch: [
-                'server.js',
+                'server.ts',
                 'src/server',
             ],
             ignore_watch: [

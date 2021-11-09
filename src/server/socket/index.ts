@@ -1,14 +1,14 @@
 import {
-    uniqueNamesGenerator,
     adjectives,
-    colors,
     animals,
+    colors,
+    uniqueNamesGenerator,
 } from 'unique-names-generator';
 
 import * as events from '../../shared/socket/events';
 
 const createUsername = () => {
-    const name = uniqueNamesGenerator({
+    return uniqueNamesGenerator({
         style: 'capital',
         separator: ' ',
         dictionaries: [
@@ -17,8 +17,6 @@ const createUsername = () => {
             animals,
         ],
     });
-
-    return name;
 };
 
 export default (io) => {

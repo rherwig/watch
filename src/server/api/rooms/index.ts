@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import Room from '../../models/room.js';
+import Room from '../../models/room';
 
 const router = Router();
 

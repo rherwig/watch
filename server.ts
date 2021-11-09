@@ -32,7 +32,12 @@ const configureDevelopment = async (app) => {
     });
 
     const manifest = {};
-    const { api, render, registerSocket, connectToDatabase } = await vite.ssrLoadModule('/src/server/index');
+    const {
+        api,
+        render,
+        registerSocket,
+        connectToDatabase,
+    } = await vite.ssrLoadModule('/src/server/index');
 
     const handler = async (req, res) => {
         const url = req.originalUrl;
@@ -76,7 +81,12 @@ const configureProduction = async (app) => {
     }));
 
     const manifest = require('./dist/client/ssr-manifest.json');
-    const { api, render, registerSocket, connectToDatabase } = require('./dist/server/index');
+    const {
+        api,
+        render,
+        registerSocket,
+        connectToDatabase,
+    } = require('./dist/server/index');
 
     const handler = async (req, res) => {
         const url = req.originalUrl;
@@ -110,7 +120,11 @@ const configureProduction = async (app) => {
         serveClient: false,
     });
 
-    const { api, connectToDatabase, handler, registerSocket } = isProduction
+    const {
+        api,
+        handler,
+        registerSocket,
+    } = isProduction
         ? await configureProduction(app)
         : await configureDevelopment(app);
 
@@ -124,14 +138,6 @@ const configureProduction = async (app) => {
 
     app.use('/api/v1', api);
     app.use('*', handler);
-
-    // try {
-    //     await connectToDatabase();
-    //     console.info('[Database] Connection established.');
-    // } catch (err) {
-    //     console.error('[Database] Connection failed', err);
-    //     process.exit(1);
-    // }
 
     registerSocket(io);
 

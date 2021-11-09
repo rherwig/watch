@@ -12,8 +12,11 @@ const { app, router, store } = createApp({
 (async () => {
     await router.isReady();
 
-    if (window.__INITIAL_STATE__) {
-        store.replaceState(window.__INITIAL_STATE__);
+    // @ts-ignore
+    const initialState = window.__INITIAL_STATE__;
+
+    if (initialState) {
+        store.replaceState(initialState);
     }
 
     app.mount('#vue-root');
