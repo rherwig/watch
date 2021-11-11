@@ -68,7 +68,7 @@ export default class YoutubePlayer extends Player {
 
     play(time = null) {
         if (time) {
-            this.player.seekTo(time, false);
+            this.player.seekTo(time, true);
         }
 
         this.player.playVideo();

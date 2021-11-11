@@ -8,7 +8,7 @@
                     class="w-6"
                 >
             </span>
-            <span class="font-light ml-1 mb-1 text-xl">
+            <span class="font-light mb-1 text-xl">
                 atch
             </span>
         </div>

@@ -17,7 +17,7 @@
         </div>
         <TextInput
             placeholder="Enter a chat message"
-            class="rounded-none"
+            class="chat-input"
             v-model="message"
             @keypress.enter="handleSendMessage"
         />
@@ -42,3 +42,9 @@ const handleSendMessage = () => {
     message.value = '';
 };
 </script>
+
+<style scoped lang="scss">
+    .chat-input {
+        @apply rounded-none #{!important};
+    }
+</style>
