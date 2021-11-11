@@ -6,13 +6,9 @@ import createRouter from './router';
 import createStore from './store';
 import App from './App.vue';
 
-export default (config = {}) => {
-    const { storePlugins } = config;
-
+export default () => {
     const router = createRouter();
-    const store = createStore({
-        plugins: storePlugins,
-    });
+    const store = createStore();
 
     const app = createSSRApp({
         render: () => h(App),

@@ -35,7 +35,7 @@ onMounted(() => {
         grid-template-areas:
             'video room'
             'video chat';
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr 400px;
         gap: 8px;
         height: 100%;
