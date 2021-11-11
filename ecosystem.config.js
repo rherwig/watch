@@ -15,6 +15,8 @@ module.exports = {
         {
             name: 'watch-app',
             script: 'server.ts',
+            interpreter: 'node',
+            interpreter_args: '-r ts-node/register',
             watch: [
                 'server.ts',
                 'src/server',
